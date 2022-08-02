@@ -1,0 +1,114 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+  <meta charset="utf-8">
+  <title>{{title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  <style>
+  .card {
+
+   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5),
+               0 6px 20px 0 rgba(0,0,0,0.39);
+   background: #DBE8D8;
+   margin-bottom : 5%;
+   border-radius: 25px;
+   padding : 2%;
+   overflow: auto;
+   resize: both;
+   text-overflow: ellipsis;
+  }
+  .card:hover{
+    background: 	#AFEEEE;
+  }
+  .row{
+    background-color: palevioletred;
+  }
+
+  .submit_form{
+
+    text-align: center;
+    padding: 3%;
+    background: #C8DF52;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4),
+                0 6px 20px 0 rgba(0,0,0,0.36);
+  }
+  </style>
+
+</head>
+
+<body  class="container-fluid">
+
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-info">
+    <strong>{{message}}</strong>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  <center class="row">
+    <h1><i>Todos App</i></h1>
+    <hr />
+  </center>
+
+  <div class="row">
+
+
+    <div class="col-md-13" >
+        <div  class="submit_form">
+        <form  method="POST">
+            <h2><b><i>Enter Task</i></b></h2>
+            <span class="border-left-0">
+          {% csrf_token %}
+          {{forms|crispy}}
+        </span>
+          
+
+          <br />
+          <center>
+          <input type="submit" class="btn btn-danger" value="Add Task" />
+        </center>
+        </form>
+      </div>
+    </div>
+
+    <center><h2><b><i>Tasks Aligned</i></b></h2></center>
+
+    <div class="col-md-16">
+
+      {% for i in list %}
+      <div class="card">
+        <h5>Task Title: <b>{{i.title}}</b></h5>
+        <hr/>
+        <h5>Details: <b>{{i.details}}</b></h5>
+        <hr/>
+        <h5>Date Created: <b>{{i.date}}</b></h5>
+        <hr/>
+        
+        <form action="/del/{{i.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
+          {% csrf_token %}
+          <button value="remove" type="submit"  class="btn btn-primary" style="float: left;"><span class="glyphicon glyphicon-trash"></span> &nbsp; Task Completed</button>
+          <button value="remove" type="submit"  class="btn btn-primary" style="float: left;"><span class="glyphicon glyphicon-edit"></span> &nbsp;&nbsp;&nbsp; Edit Task</button>
+        </form>
+      </div>
+      {% endfor%}
+    </div>
+    <div class="col-md-1"> </div>
+
+
+    
+
+
+
+</div>
+</body>
+
+</html>
